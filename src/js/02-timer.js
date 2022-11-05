@@ -19,8 +19,7 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-        //   console.log(selectedDates[0]);
-        if (calendar.selectedDates[0].getTime() > date.getTime()) {
+         if (calendar.selectedDates[0].getTime() > date.getTime()) {
             buttonStart.removeAttribute('disabled');
             return
         }
@@ -35,12 +34,21 @@ buttonStart.setAttribute("disabled", '');
 buttonStart.addEventListener('click', startTimer);
 
 
-
 function startTimer() {
     setInterval(() => {
+
+        if ((calendar.selectedDates[0].getTime() - date.getTime()) < 0) {
+        getEl('span[data-days]').textContent = "00";
+        getEl('span[data-hours]').textContent = '00';
+        getEl('span[data-minutes]').textContent = '00';
+        getEl('span[data-seconds]').textContent = '00';
+
+        return
+        }
+       
         const actualTime = new Date()
         let { days, hours, minutes, seconds } = convertMs(calendar.selectedDates[0].getTime() - actualTime.getTime());
-  
+        
         getEl('span[data-days]').textContent = addLeadingZero(days);
         getEl('span[data-hours]').textContent = addLeadingZero(hours);
         getEl('span[data-minutes]').textContent = addLeadingZero(minutes);
