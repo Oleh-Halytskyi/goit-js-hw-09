@@ -35,13 +35,16 @@ buttonStart.addEventListener('click', startTimer);
 
 
 function startTimer() {
-    setInterval(() => {
+    const setID = setInterval(() => {
 
         if ((calendar.selectedDates[0].getTime() - date.getTime()) < 0) {
         getEl('span[data-days]').textContent = "00";
         getEl('span[data-hours]').textContent = '00';
         getEl('span[data-minutes]').textContent = '00';
         getEl('span[data-seconds]').textContent = '00';
+
+        buttonStart.setAttribute("disabled", '');
+        clearInterval(setID);
 
         return
         }
