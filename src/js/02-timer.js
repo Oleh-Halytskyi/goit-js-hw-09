@@ -34,10 +34,14 @@ buttonStart.setAttribute("disabled", '');
 buttonStart.addEventListener('click', startTimer);
 
 
+
+
 function startTimer() {
+
+
     const setID = setInterval(() => {
 
-        if ((calendar.selectedDates[0].getTime() - date.getTime()) < 0) {
+        if ((calendar.selectedDates[0].getTime() - date.getTime()) <= 0) {
         getEl('span[data-days]').textContent = "00";
         getEl('span[data-hours]').textContent = '00';
         getEl('span[data-minutes]').textContent = '00';
@@ -45,17 +49,22 @@ function startTimer() {
 
         buttonStart.setAttribute("disabled", '');
         clearInterval(setID);
-
         return
         }
-       
+        
         const actualTime = new Date()
-        let { days, hours, minutes, seconds } = convertMs(calendar.selectedDates[0].getTime() - actualTime.getTime());
+        
+        let { days, hours, minutes, seconds } = convertMs(calendar.selectedDates[0].getTime() - actualTime.getTime()); 
+        console.log(days);
         
         getEl('span[data-days]').textContent = addLeadingZero(days);
         getEl('span[data-hours]').textContent = addLeadingZero(hours);
         getEl('span[data-minutes]').textContent = addLeadingZero(minutes);
         getEl('span[data-seconds]').textContent = addLeadingZero(seconds);
+        
+        if (seconds === 0 && minutes === 0 && hours === 0 && days === 0) {
+         clearInterval(setID)
+        };
     }, 1000)
 }
 
